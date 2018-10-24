@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
 });
 
 connectDb().then(db => {
-  routes(app, db).listen(3000, () => {
-    console.log('app running on 3000');
+  routes(app, db).listen(process.env.PORT || 4000, () => {
+    console.log('Application running on port ' + (process.env.PORT || "5000"));
   });
 })
