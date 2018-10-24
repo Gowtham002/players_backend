@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
 });
 
 connectDb().then(db => {
-  routes(app, db).listen(4000, () => {
-    console.log('app running on 4000');
+  routes(app, db).listen(3000, () => {
+    console.log('app running on 3000');
   });
 })
