@@ -29,7 +29,7 @@ module.exports = function (db) {
         res.status(500)
         res.json({ error: err })
       } else {
-        res.json(result);
+        res.json({result: "created successfully"});
       }
     })
   })
@@ -46,7 +46,7 @@ module.exports = function (db) {
         res.status(500)
         res.json({ error: err })
       } else {
-        res.json(result);
+        res.json({result: "deleted successfully"});
       }
     })
   })
