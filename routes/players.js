@@ -6,15 +6,21 @@ const validateCreate = require("../validations/players").validateCreate
 
 module.exports = function (db) {
   router.get("/", function (req, res) {
-    db.collection("players").find({}).sort( { created_at: -1 } ).toArray((err, docs) => {
-      if (err) {
-        console.log(err);
-        res.status(500)
-        res.json({ error: err })
-      } else {
-        res.json(docs);
-      }
-    });
+    const perPage = 10;
+    let currentPage = parseInt(req.query.page);
+    let skips = perPage * (currentPage - 1);
+    let collection = db.collection("players").find({}).sort({ created_at: -1 });
+    collection.count().then(function(count) {
+      collection.skip(skips).limit(perPage).toArray((err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500)
+          res.json({ error: err })
+        } else {
+          res.json({players: result, currentPage, totalPages: Math.ceil(count / perPage) });
+        }
+      });
+    })
   })
 
   router.get("/:id", function (req, res) {
