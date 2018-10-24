@@ -6,6 +6,11 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(function timeLog(req, res, next) {
+  console.log("request", req.method, req.originalUrl, Date());
+  console.log("response", res.statusCode, Date());
+  next();
+})
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
@@ -15,6 +20,6 @@ app.use(function(req, res, next) {
 
 connectDb().then(db => {
   routes(app, db).listen(process.env.PORT || 4000, () => {
-    console.log('Application running on port ' + (process.env.PORT || "5000"));
+    console.log('application running on port ' + (process.env.PORT || "4000"));
   });
 })
